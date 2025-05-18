@@ -24,24 +24,22 @@ document.querySelector('.container').addEventListener('click', (e) => {
   const removeRow = container.querySelector('.remove-row');
   const appendColumn = container.querySelector('.append-column');
   const removeColumn = container.querySelector('.remove-column');
-  let rowCounter = tableRows.length;
-  let columnCounter = table.querySelector('tr').querySelectorAll('td').length;
 
   if (target.matches('.append-row')) {
     const newRow = document.createElement('tr');
 
-    for (let i = 0; i < columnCounter; i++) {
+    for (let i = 0; i < table.rows[0].cells.length; i++) {
       const fragment = document.createElement('td');
 
       newRow.append(fragment);
     }
     tableBody.append(newRow);
-    checkCounter(++rowCounter, removeRow);
+    checkCounter(table.rows.length, removeRow);
   }
 
   if (target.matches('.remove-row')) {
     tableBody.deleteRow(-1);
-    checkCounter(--rowCounter, appendRow);
+    checkCounter(table.rows.length, appendRow);
   }
 
   if (target.matches('.append-column')) {
@@ -50,13 +48,13 @@ document.querySelector('.container').addEventListener('click', (e) => {
 
       row.append(newTd);
     });
-    checkCounter(++columnCounter, removeColumn);
+    checkCounter(table.rows[0].cells.length, removeColumn);
   }
 
   if (target.matches('.remove-column')) {
     tableRows.forEach((row) => {
-      row.firstElementChild.remove();
+      row.lastElementChild.remove();
     });
-    checkCounter(--columnCounter, appendColumn);
+    checkCounter(table.rows[0].cells.length, appendColumn);
   }
 });
